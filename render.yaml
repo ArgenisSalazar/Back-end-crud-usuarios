@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: users-crud-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: users-crud-db
+          property: connectionString
+      - key: BCRYPT_ROUNDS
+        value: 10
+
+databases:
+  - name: users-crud-db
+    plan: free
+    databaseName: users_crud
+    user: users_crud_user
